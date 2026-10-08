@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>หนึ่งวันในเรือนเก่า</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101D30;
+  --ink-2:#1B2C45;
+  --leaf:#E9DCBC;
+  --leaf-2:#DCCBA3;
+  --cinnabar:#C1272D;
+  --gold:#D4A03A;
+  --dusk:#7C6490;
+  --text:#F2E8D0;
+  --text-dim:#B6A98A;
+  --paper-text:#2A2416;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:"IBM Plex Sans Thai",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:28px 18px 64px;
+}
+.wrap{width:100%;max-width:580px}
+
+/* ---------- opening ---------- */
+.cover{text-align:center;padding-top:22px}
+.cover .eyebrow{
+  font-size:13px;color:var(--text-dim);letter-spacing:.02em;
+  margin:0 0 18px;line-height:1.6
+}
+.cover h1{
+  font-family:"Charm",serif;font-weight:700;
+  font-size:clamp(34px,9vw,52px);line-height:1.5;
+  margin:0 0 14px;padding-top:10px;color:var(--leaf)
+}
+
+/* ---------- artwork haze ---------- */
+.art-wrap{position:relative;display:block;line-height:0}
+.art-wrap svg,.art-wrap img, .art-wrap canvas{
+  display:block;width:100%;height:auto;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  filter:saturate(.82) contrast(.96) brightness(.92)
+}
+.haze{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(233,220,188,.20) 0%,rgba(233,220,188,0) 30%,
+    rgba(16,29,48,.05) 58%,rgba(16,29,48,.34) 100%);
+  box-shadow:inset 0 0 70px rgba(16,29,48,.30),inset 0 0 20px rgba(16,29,48,.16)
+}
+.cover-art .art-wrap{border-radius:var(--radius);overflow:hidden}
+.cover .lede{
+  max-width:38ch;margin:0 auto 30px;color:var(--text-dim);font-size:15px
+}
+.cover-art{margin:6px 0 26px}
+
+.btn{
+  font-family:"IBM Plex Sans Thai",sans-serif;
+  font-size:16px;font-weight:500;
+  background:var(--cinnabar);color:#FFF3E6;
+  border:0;border-radius:var(--radius);
+  padding:14px 34px;cursor:pointer;
+  transition:background .18s ease;
+}
+.btn:hover{background:#D8383E}
+.btn:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+.btn.ghost{
+  background:transparent;color:var(--text-dim);
+  border:1px solid rgba(233,220,188,.28);
+}
+.btn.ghost:hover{background:rgba(233,220,188,.07);color:var(--leaf)}
+
+/* ---------- progress ---------- */
+.tally{display:flex;gap:6px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.tally i{
+  display:block;width:16px;height:3px;border-radius:2px;
+  background:rgba(233,220,188,.18);transition:background .3s ease
+}
+.tally i.done{background:var(--gold)}
+.tally i.now{background:var(--cinnabar)}
+
+/* ---------- question card ---------- */
+.card{
+  background:var(--leaf);color:var(--paper-text);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 18px 40px rgba(0,0,0,.34)
+}
+.card .art{display:block;width:100%;height:auto}
+.card .body{padding:22px 22px 24px}
+.scene-time{
+  font-family:"Charm",serif;font-size:19px;font-weight:700;
+  color:#6E5A2E;margin:0 0 6px
+}
+.q{
+  font-size:17px;font-weight:500;line-height:1.65;
+  margin:0 0 18px;color:var(--paper-text)
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{
+  font-family:inherit;font-size:15.5px;line-height:1.55;text-align:left;
+  background:rgba(255,255,255,.5);
+  color:var(--paper-text);
+  border:1px solid rgba(42,36,22,.16);
+  border-radius:10px;padding:13px 16px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,transform .1s ease
+}
+.opt:hover{background:#fff;border-color:rgba(42,36,22,.4)}
+.opt:active{transform:scale(.988)}
+.opt:focus-visible{outline:2.5px solid var(--cinnabar);outline-offset:2px}
+
+.backrow{margin-top:16px;text-align:center}
+.link{
+  background:none;border:0;color:var(--text-dim);
+  font-family:inherit;font-size:14px;cursor:pointer;padding:6px 10px
+}
+.link:hover{color:var(--leaf);text-decoration:underline}
+
+/* ---------- result ---------- */
+.result{animation:rise .5s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.result{animation:none}}
+
+.rhead{text-align:center;margin-bottom:22px}
+.rhead .pre{font-size:13px;color:var(--text-dim);margin:0 0 8px}
+.rhead h2{
+  font-family:"Charm",serif;font-weight:700;
+  font-size:clamp(36px,10vw,54px);line-height:1.5;
+  margin:0;padding-top:12px;color:var(--leaf)
+}
+.pair{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.pair div{padding:14px 16px;border-radius:10px;background:rgba(42,36,22,.07)}
+.pair h3{
+  font-family:"IBM Plex Sans Thai",sans-serif;
+  font-size:13px;font-weight:600;margin:0 0 4px;color:#6E5A2E
+}
+.pair .who{font-family:"Charm",serif;font-size:20px;font-weight:700;display:block;line-height:1.5}
+.pair p{font-size:14.5px;line-height:1.7;margin:2px 0 0}
+.swatch{
+  display:inline-flex;align-items:center;gap:9px;
+  margin-top:14px;font-size:13px;color:var(--text-dim)
+}
+.swatch b{
+  width:26px;height:26px;border-radius:50%;
+  border:1px solid rgba(233,220,188,.3);display:block
+}
+.rquote{
+  font-family:"Charm",serif;font-size:21px;line-height:1.6;
+  color:var(--gold);text-align:center;
+  margin:24px auto 26px;max-width:32ch;text-wrap:balance
+}
+.rbody{background:var(--leaf);color:var(--paper-text);border-radius:var(--radius);padding:24px 22px}
+.rbody p{margin:0 0 15px;font-size:15.5px;text-wrap:pretty}
+.rbody p:last-child{margin-bottom:0}
+.trivia{
+  margin-top:20px;padding:16px 18px;
+  background:rgba(42,36,22,.07);
+  border-left:3px solid var(--cinnabar);border-radius:0
+}
+.trivia h3{
+  font-family:"IBM Plex Sans Thai",sans-serif;
+  font-size:13px;font-weight:600;margin:0 0 6px;color:#6E5A2E
+}
+.trivia p{font-size:14.5px;line-height:1.7;margin:0}
+.menu{
+  margin-top:16px;padding:16px 18px;
+  background:rgba(42,36,22,.07);border-radius:10px
+}
+.menu h3{
+  font-family:"IBM Plex Sans Thai",sans-serif;
+  font-size:13px;font-weight:600;margin:0 0 6px;color:#6E5A2E
+}
+.menu p{font-size:14.5px;line-height:1.7;margin:0}
+.menu .dish{font-family:"Charm",serif;font-size:19px;font-weight:700;display:block;margin-bottom:2px}
+.ragain{text-align:center;margin-top:26px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.footnote{
+  text-align:center;font-size:12.5px;color:rgba(182,169,138,.7);
+  margin-top:30px;line-height:1.7
+}
+
+/* ---------- food images and discount ---------- */
+.food-img{
+  width:100%;max-width:300px;height:auto;max-height:320px;object-fit:contain;
+  margin:10px auto 4px;display:block;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 10px 14px rgba(42,36,22,.28))
+}
+.menu .dish-name{text-align:center}
+.discount-section{
+  background:rgba(212,160,58,.12);
+  border:2px dashed var(--gold);
+  border-radius:10px;padding:18px 16px;margin-top:16px;text-align:center
+}
+.discount-section h3{
+  font-family:"Charm",serif;font-size:22px;font-weight:700;
+  color:#8A5F12;margin:0 0 4px
+}
+.menu .discount-text{font-size:14px;line-height:1.65;margin:0 0 14px;color:var(--paper-text)}
+.save-btn{
+  font-family:inherit;background:var(--cinnabar);color:#FFF3E6;
+  border:0;padding:12px 26px;border-radius:var(--radius);
+  font-size:15px;font-weight:600;cursor:pointer;transition:background .2s
+}
+.save-btn:hover{background:#D8383E}
+.save-btn:disabled{opacity:.7;cursor:wait}
+.save-btn:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px}
+.save-sheet{
+  position:fixed;inset:0;z-index:50;background:rgba(6,12,22,.95);
+  display:flex;align-items:flex-start;justify-content:center;padding:18px;overflow:auto
+}
+.save-inner{text-align:center;max-width:420px;width:100%;margin:auto}
+.save-hint{color:var(--text);font-size:14px;margin:0 0 12px}
+.save-preview{
+  width:auto;max-width:100%;max-height:58vh;height:auto;border-radius:16px;display:block;margin:0 auto;
+  box-shadow:0 18px 40px rgba(0,0,0,.5);-webkit-touch-callout:default
+}
+.save-actions{display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:14px}
+.save-actions .btn{padding:11px 28px}
+.save-actions .btn{text-decoration:none;min-width:220px;display:inline-block}
+.save-msg{color:var(--gold);font-size:14px;min-height:1.2em;margin:10px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+
+
+const S={};
+['cover','q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'].forEach(k=>{
+  S[k]=`<img src="${k}.png" alt="${k}" class="art-img" loading="lazy">`;
+});
+
+const QUESTIONS = [
+{art:S.q1,time:"เช้าตรู่ · ท่าน้ำหน้าเรือน",
+ q:"เจ้าลงไปตักน้ำ เห็นห่อผ้าขาวผูกด้ายดำลอยติดเสาท่าอยู่<br>ไม่มีใครรู้ว่าใครเอามาวาง",
+ opts:[["แก้ออกดูเลย อยากรู้ว่าข้างในคืออะไร","tamra"],
+       ["ไม่แตะ รีบขึ้นเรือน แล้วบอกคนในบ้านให้ระวัง","fang"],
+       ["เขี่ยลงน้ำให้ลอยไป ไม่ควรมีของแบบนี้อยู่หน้าบ้าน","hun"],
+       ["ยืนดูอยู่ครู่หนึ่ง แล้วคิดว่า…สวยดีนะ","namman"]]},
+{art:S.q2,time:"สาย · ตลาดน้ำ",
+ q:"แม่ค้าเรือพายทอนเงินเจ้าขาดไปสองเบี้ย เจ้ารู้ตัว<br>เธอก็รู้ว่าเจ้ารู้ แต่ยังยิ้มอยู่",
+ opts:[["ทักไปตรง ๆ ต่อหน้าคนทั้งตลาด","wua"],
+       ["ไม่พูด ยิ้มรับ แล้วจำหน้าไว้ ไม่ซื้อร้านนี้อีก","nang"],
+       ["บอกเบา ๆ ว่าคงนับผิด ให้เธอได้แก้เอง","sanae"],
+       ["หัวเราะ ช่างมันเถอะ สองเบี้ยเอง ไปหาอย่างอื่นกินดีกว่า","kuman"]]},
+{art:S.q3,time:"เที่ยง · ลานวัด",
+ q:"พระกำลังเทศน์ คนนั่งฟังกันเต็มศาลา เจ้านั่งอยู่แถวไหน",
+ opts:[["แถวหน้าสุด ตั้งใจฟังทุกคำ","hun"],
+       ["ริมเสา มองคนมากกว่าฟังเทศน์","tamra"],
+       ["กลาง ๆ พอให้คนเห็นว่ามา","takrud"],
+       ["หลังสุด เผลอหลับไปแล้วครึ่งกัณฑ์","nang"]]},
+{art:S.q4,time:"บ่าย · ใต้ถุนเรือน",
+ q:"มีคนมาขอให้เจ้าช่วยเรื่องหนึ่ง เป็นเรื่องที่เจ้าทำได้ แต่ทำแล้วเจ้าเสียเปรียบ",
+ opts:[["ช่วย ไม่ต้องคิดมาก เขามาหาเราก็แปลว่าเขาไม่มีใคร","sanae"],
+       ["ถามก่อนว่าทำไมต้องเป็นเรา เขาไปหาคนอื่นมาแล้วหรือยัง","fang"],
+       ["ช่วย แต่ต้องให้คนอื่นรู้ว่าเราเป็นคนช่วย","takrud"],
+       ["ปฏิเสธไปเลย ไม่ใช่เรื่องของเรา","wua"]]},
+{art:S.q5,time:"เย็น · ทางสามแพร่ง",
+ q:"เจ้าเดินกลับบ้าน ผ่านทางสามแพร่งตอนโพล้เพล้<br>มีคนนั่งอยู่ตรงนั้นคนหนึ่ง เงยหน้ามองเจ้า",
+ opts:[["เดินผ่านไปเฉย ๆ ไม่สบตา","nang"],
+       ["หยุดถามว่าเป็นอะไรไหม","sanae"],
+       ["เดินเลี่ยงไปอีกทาง ถึงจะไกลกว่าก็ตาม","fang"],
+       ["สบตากลับ ไม่หลบ","wua"]]},
+{art:S.q6,time:"ค่ำ · ในเรือน",
+ q:"คืนนี้เจ้านอนไม่หลับ ฟังเสียงอะไรบางอย่างเดินอยู่ใต้ถุน<br>จังหวะเท้าทื่อ ๆ ไม่เหมือนคน",
+ opts:[["ลุกไปดู","wua"],
+       ["นอนนิ่ง ทำเป็นไม่ได้ยิน","nang"],
+       ["สวดมนต์ในใจ","hun"],
+       ["นับจังหวะเท้า ดูว่ามันวนกี่รอบ","tamra"]]},
+{art:S.q9,time:"ดึก · หีบข้างที่นอน",
+ q:"ของที่เจ้าหวงที่สุดในเรือนนี้ ถ้าไฟไหม้แล้วหยิบได้อย่างเดียว เจ้าหยิบอะไร",
+ opts:[["ของที่คนตายทิ้งไว้ ไม่มีค่าสำหรับใครนอกจากเจ้า","namman"],
+       ["ของที่ใครเห็นก็ต้องทัก","takrud"],
+       ["ของกินที่เก็บไว้แบ่งคนอื่น","kuman"],
+       ["สมุดที่เจ้าจดไว้เอง ไม่เคยให้ใครอ่าน","tamra"]]},
+{art:S.q10,time:"คืนเพ็ญ · งานวัด",
+ q:"มีงานวัดริมคลอง เสียงปี่พาทย์ดังมาถึงเรือน เจ้าทำอย่างไร",
+ opts:[["ไป และอยู่จนเลิกงาน","kuman"],
+       ["ไป แต่ยืนดูอยู่ห่าง ๆ","namman"],
+       ["ไม่ไป อยู่บ้านเงียบกว่า","nang"],
+       ["ไป เพราะมีคนที่ควรได้เจอเราที่นั่น","takrud"]]},
+{art:S.q7,time:"ดึกสงัด · เจ้าฝัน",
+ q:"ในฝัน เจ้ายืนอยู่หน้ากระจกเงาบานหนึ่ง แต่เงาในกระจกไม่ใช่เจ้า<br>เป็นคนที่เจ้าอยากเป็น เงานั้นหน้าตาอย่างไร",
+ opts:[["คนที่ไม่มีใครกล้ามายุ่ง","wua"],
+       ["คนที่ใครเดือดร้อนก็นึกถึงเป็นคนแรก","sanae"],
+       ["คนที่ไม่เหมือนใครในโลกนี้","namman"],
+       ["คนที่ทำอะไรก็สำเร็จ","takrud"]],
+ key:true},
+{art:S.q8,time:"ก่อนฟ้าสาง · มีคนเคาะฝาเรือน",
+ q:"เสียงจากนอกฝาบอกว่า “ข้ารู้ว่าใครทำเจ้า และข้าทำคืนให้ได้”<br>เจ้าตอบว่าอย่างไร",
+ opts:[["“ทำเลย”","wua"],
+       ["“ขอเวลาคิดก่อน”","fang"],
+       ["“ไม่ต้อง กรรมใครกรรมมัน”","hun"],
+       ["“ข้าอยากรู้แค่ว่าเขาทำด้วยวิชาอะไร”","tamra"],
+       ["“ไม่เอา แต่อยู่คุยกันก่อนสิ”","kuman"]]}
+];
+
+const RESULTS = {
+hun:{name:"หุ่นพยนต์",color:"#DDD8CE",img:"cut-hun.png",
+ quote:"เสียงเท้าทื่อ ๆ ที่เจ้าได้ยินใต้ถุนเมื่อคืน ไม่ได้มาหาเจ้า มันมาจากเจ้า",
+ body:["เจ้าผูกมันขึ้นจากฟางข้าว เขียนชื่อลงไป แล้วปล่อยในคืนเดือนมืด มันเดินวนรอบเรือนทุกคืนโดยไม่เคยหยุด ไม่เคยถาม ไม่เคยเหนื่อย ใครผ่านมาหน้าบ้านจะเห็นเหมือนมีคนเดินอยู่ตลอดเวลา",
+ "เจ้าไม่ได้สร้างมันเพื่อฆ่าใคร เจ้าสร้างมันเพราะมันจะทำในสิ่งที่ถูกต้องเสมอ ไม่เหมือนคน — คนเบี้ยว คนลืม คนหาข้อแก้ตัว แต่หุ่นฟางไม่เคย",
+ "เจ้าเชื่อว่าโลกนี้มีวิธีที่ถูก และทุกคนควรทำตามนั้น รวมทั้งตัวเจ้าเองด้วย โดยเฉพาะตัวเจ้าเอง เจ้าเข้มงวดกับตัวเองยิ่งกว่าที่เข้มงวดกับใคร และเจ้าไม่เคยให้อภัยตัวเองเลยสักครั้ง"],
+ trivia:"หุ่นพยนต์ทำจากฟางข้าวผูกเป็นรูปคน เขียนชื่อเหยื่อแล้วว่าคาถาก่อนปล่อยในคืนเดือนมืด เดินทื่อ ๆ ไร้ชีวิตชีวา นอกจากใช้โจมตี ยังผูกไว้เฝ้าบ้านกันภูตผีได้ด้วย",
+ dish:"นมมะตูม ฝอยทอง",dishNote:"นมสดหมักกับกลิ่นมะตูมเข้ม โรยด้วยฝอยทองคำแท้ รสชาติหวาน ลึกเพียบ"},
+
+sanae:{name:"เสน่ห์ยาแฝด",color:"#E91E63",img:"cut-sanae.png",
+ quote:"เจ้าไม่เคยขออะไรจากใคร เจ้าแค่อยากให้มีสักคนขออะไรจากเจ้าบ้าง",
+ body:["เจ้าไปหาอาจารย์ตอนดึก ไม่ได้ขอให้ใครเจ็บ เจ้าขอแค่ให้เขาหันมามองเจ้าสักครั้ง ของที่ได้มาเป็นแค่ขวดเล็ก ๆ อาจารย์บอกว่า ป้ายแล้วต้องรับผิดชอบเขา ห้ามป้ายทิ้งป้ายขว้าง",
+ "เจ้ารับปาก และเจ้าตั้งใจจะรับผิดชอบจริง ๆ นั่นแหละคือปัญหา",
+ "เจ้ากลัวการเป็นคนที่ไม่มีใครต้องการ จึงทำให้ตัวเองเป็นคนที่ขาดไม่ได้ เจ้าเรียกมันว่าความรัก แต่มันเป็นการครอบครองที่ห่อด้วยความหวังดี — และเจ้าเป็นคนสุดท้ายที่จะมองเห็น"],
+ trivia:"เสน่ห์ยาแฝดอยู่ในคุณไสยสายควบคุม สายเดียวกับการฝังรูปฝังรอย ครูบาอาจารย์สายนี้มักย้ำว่าผู้ใช้ต้องรับผิดชอบคนที่ถูกกระทำด้วย",
+ dish:"ไก่เขย่าผงปาปริก้า+ชีส",dishNote:"ไก่ทอดเนื้อสดชูจัดกับพริกไทยและปาปริก้าแดง โรยชีสโมสซาเรลล่าอุ่น รสเผ็ดนุ่ม"},
+
+takrud:{name:"ตะกรุดโสฬส",color:"#E6B422",img:"cut-takrud.png",
+ quote:"สิบหกดอก ร้อยเป็นสายคาดเอว หนักจนเดินเสียงดัง — และเจ้าตั้งใจให้มันดัง",
+ body:["เจ้าไม่ได้ปล่อยของใส่ใคร เจ้าใส่เกราะ",
+ "แต่ความจริงที่เจ้าไม่พูดคือ เจ้าไม่รู้หรอกว่ามันกันได้จริงไหม เจ้ารู้แค่ว่าพอคนเห็นว่าเจ้ามี ก็ไม่มีใครลองแล้ว และนั่นก็พอแล้วสำหรับเจ้า",
+ "เจ้ากลัวการถูกมองว่าล้มเหลว มากกว่ากลัวความล้มเหลวเอง เจ้าเก่งเรื่องการเป็นคนที่คนอื่นชื่นชม จนลืมไปว่าตัวจริงของเจ้าอยากเป็นอะไร"],
+ trivia:"ตะกรุดโสฬสถือเป็นตะกรุดที่เก๋าที่สุด มีถึง 16 ดอก ทำจากแผ่นทองแดง ทองเหลือง ดีบุก หรือตะกั่ว เชื่อว่าอยู่ยงคงกระพัน นิยมมากในยุคออกรบสมัยโบราณ",
+ dish:"พาร์เฟต์ข้าวเหนียวมะม่วงไอติมวนิลา ทองม้วน",dishNote:"สองสามชั้นสลับกัน ชั้นข้าวเหนียวมะม่วง ชั้นครีมโคลน ชั้นไอติมวนิลา ตกแต่งด้วยฝอยทองและมะม่วงอบแห้ง"},
+
+namman:{name:"น้ำมันพราย",color:"#7B3F8C",img:"cut-namman.png",
+ quote:"เจ้ารู้ตั้งแต่แรกว่าจะไม่ได้เขามา และเจ้าก็ยังไปเอามันมาอยู่ดี",
+ body:["ขวดเล็ก ๆ ที่เก็บกลิ่นของคนที่ไม่อยู่แล้ว เจ้าไม่ได้ต้องการให้ใครรักเจ้าเท่ากับที่เจ้าต้องการรู้สึกอะไรบางอย่างให้ลึกที่สุดเท่าที่จะลึกได้",
+ "คนอื่นใช้มันเพื่อให้ได้คนรัก เจ้าใช้มันเพราะเจ้าหลงใหลในตัวความโหยหาเอง ถ้าวันหนึ่งได้เขามาจริง ๆ เจ้าอาจจะไม่รู้จะทำอย่างไรต่อ",
+ "เจ้ากลัวการเป็นคนธรรมดา กลัวว่าจะไม่มีอะไรในตัวเจ้าที่พิเศษเลย เจ้ารักความเศร้าของตัวเองมากเกินไป จนบางทีก็ไม่ยอมให้ตัวเองมีความสุขง่าย ๆ"],
+ trivia:"น้ำมันพรายมีบันทึกเก่าแก่มาก งานเขียนยุคแรกของ Journal of the Siam Society กล่าวถึงเสน่ห์ยาแฝดที่ทำจากไข แป้ง และน้ำมันจันทน์ ว่าคือสิ่งที่ชาวสยามเรียกว่าน้ำมันพราย",
+ dish:"อัญชัน น้ำผึ้งมะนาว โซดา",dishNote:"ชาอัญชันหมักอบดีฟ ผสมเนื้อจุกจิกกันและกรด แล้วแตะด้วยโซดา สีม่วงลุ่มลึก"},
+
+tamra:{name:"ตำราไสย",color:"#1F4E79",img:"cut-tamra.png",
+ quote:"เจ้ามีทุกวิชาอยู่ในหีบใบนั้น และเจ้าไม่เคยเปิดใช้เลยสักครั้ง",
+ body:["สมุดข่อยที่เจ้าคัดลอกมาจากอาจารย์สามสำนัก เจ้ารู้ว่ากรรไกรทำงานอย่างไร รู้ว่าหนังควายย่อลงเท่านิ้วก้อยด้วยวิธีใด รู้กระทั่งคาถาถอนของทุกบท",
+ "คนมาขอให้เจ้าช่วย เจ้าก็บอกวิธีให้ไป แต่เจ้าไม่ลงมือเอง — เพราะสำหรับเจ้า การรู้ก็คืออำนาจแล้ว ไม่จำเป็นต้องใช้",
+ "เจ้ากลัวการไม่รู้ กลัวการถูกทำให้ดูโง่ กลัวการถูกดึงเข้าไปในเรื่องที่ควบคุมไม่ได้ เจ้าสะสมไว้เยอะจนไม่เหลือที่ให้ลงมือทำ และวันหนึ่งเจ้าจะพบว่าความรู้ที่ไม่เคยใช้ ก็เท่ากับไม่มี"],
+ trivia:"คำว่าไสยเดิมไม่ได้แปลว่าชั่วร้าย พจนานุกรมเขมรระบุว่ามาจากบาลี เสยฺย สันสกฤต เศฺรยสฺ แปลว่าประเสริฐวิเศษ คำว่าคัมภีร์ไสยจึงหมายถึงตำราอันประเสริฐ",
+ dish:"ข้าวอัญชันทูน่าปูอัดสไปซี่มาโย",dishNote:"ข้าวอัญชันสีเข้ม เสิร์ฟพร้อมทูน่าหั่นสด ปูอัดเสียบด้วยน้ำจิ้มสไปซี่เอมูลชั้นครีมนุ่ม"},
+
+fang:{name:"ฝังรูปฝังรอย",color:"#6B4423",img:"cut-fang.png",
+ quote:"เจ้าฝังมันไว้ตั้งแต่ยังไม่มีเรื่องอะไรเกิดขึ้น",
+ body:["ทางสามแพร่งที่เจ้าเลี่ยงเดินเมื่อวาน — เจ้าเลี่ยงเพราะเจ้ารู้ว่ามีอะไรอยู่ตรงนั้น เจ้าเอาไปฝังเอง เมื่อนานมาแล้ว ตอนที่ยังไม่ทะเลาะกับใคร",
+ "เจ้าไม่ได้อยากทำร้ายใคร เจ้าแค่ทนไม่ได้ที่จะไม่มีอะไรเตรียมไว้เลย ถ้าวันนั้นมาถึงจริง ๆ อย่างน้อยเจ้าก็ไม่ได้ตั้งตัวไม่ทัน",
+ "เจ้าต้องการความมั่นคง และสมองเจ้าคิดฉากเลวร้ายที่สุดไว้เสมอ เจ้าเตรียมรับมือกับเรื่องที่ไม่เคยเกิดขึ้น มากกว่าที่เจ้าได้ใช้ชีวิตกับเรื่องที่เกิดขึ้นจริง"],
+ trivia:"การฝังรูปฝังรอยใช้หุ่นดินปั้นเขียนชื่อเหยื่อ นำไปฝังตามจุดอาถรรพ์อย่างป่าช้าหรือทางสามแพร่ง เชื่อว่าทำให้เจ็บป่วยเรื้อรัง แก้ยากเพราะต้องตามหาของที่ฝังให้เจอ",
+ dish:"พาร์เฟ่ต์ช็อกโกแลต ลูกชุบรูปตุ๊กตา",dishNote:"ชั้นช็อกโกแลตแมตดำ ชั้นช็อกโกแลตมูส ลูกชุบโกโก้ร้อนเสมือนตุ๊กตา"},
+
+kuman:{name:"กุมารทอง",color:"#F57C00",img:"cut-kuman.png",
+ quote:"เจ้าเลี้ยงมันไว้เพราะเรือนหลังนี้เงียบเกินไป",
+ body:["เจ้าให้น้ำแดงทุกเช้า พูดกับมันเหมือนพูดกับเด็กจริง ๆ คนเขาว่าเลี้ยงไว้เรียกทรัพย์ เจ้าก็พยักหน้ารับ แต่เหตุผลจริงคือ มีอะไรอยู่ข้างตัวตลอดเวลา ดีกว่าอยู่คนเดียวแล้วต้องคิดมาก",
+ "เจ้าเป็นคนที่คนอื่นชอบอยู่ด้วยที่สุดในตลาด และเป็นคนที่ไม่มีใครรู้เลยว่ากลางคืนเจ้าเป็นอย่างไร",
+ "เจ้าวิ่งหนีความว่างเปล่าด้วยการหาอะไรใหม่ ๆ มาเติมไม่หยุด เจ้าเก่งเรื่องหนีความเจ็บ จนไม่เคยอยู่กับมันนานพอให้มันหายจริง"],
+ trivia:"คนไทยเชื่อกันแพร่หลายว่ากุมารทองชอบน้ำแดง จึงนิยมนำไปเซ่นตามศาล ในวรรณคดีไทยกุมารทองปรากฏชัดที่สุดในขุนช้างขุนแผน ซึ่งเป็นคลังคุณไสยที่ใหญ่ที่สุดของวรรณคดีไทย",
+ dish:"แดงมะนาว ทองหยอด",dishNote:"น้ำมะนาวสด ซิรัปสีแดงหวานเข้ม ทองหยอดแยกชั้นตกลง ดื่มน้อยหนึ่ง อยากได้เพิ่ม"},
+
+wua:{name:"วัวธนู",color:"#D32F2F",img:"cut-wua.png",
+ quote:"เจ้าปล่อยมันไปตอนกลางวันแสก ๆ ไม่ต้องรอเดือนมืด",
+ body:["วัวธนูพุ่งตรง ชนซึ่งหน้า ไม่แอบ ไม่อ้อม ใครเห็นก็รู้ว่าใครปล่อย — และเจ้าตั้งใจให้รู้",
+ "คนอื่นทำของแล้วปิดปาก เจ้าทำแล้วยืนรอดูผล เพราะสำหรับเจ้า การแอบทำคือการยอมรับว่าตัวเองผิด และเจ้าไม่เคยคิดว่าตัวเองผิด",
+ "เจ้ากลัวการถูกควบคุม กลัวการอยู่ในมือใคร — จึงเลือกเป็นฝ่ายคุมเสมอ ข้างในเจ้าอ่อนโยนกว่าที่ใครคิดมาก แต่เจ้าไม่ยอมให้ใครเห็น เพราะเจ้าเชื่อว่าคนอ่อนแอจะถูกกิน"],
+ trivia:"วัวธนูอยู่ในคุณไสยสายโจมตี กลุ่มเดียวกับหุ่นพยนต์และกุมารทองพราย เป็นหุ่นปั้นเสกที่ปล่อยออกไปทำร้ายเป้าหมายโดยตรง",
+ dish:"ข้าวแฮมเบิร์กซอสเทริยากิ",dishNote:"ข้าวนึ่งนุ่ม แฮมเบิร์กเนื้อสด ซอสเทริยากิฉลุย กลิ่มหอม กัดชาติ"},
+
+nang:{name:"หนังควาย",color:"#78716C",img:"cut-nang.png",
+ quote:"มันเข้าไปได้เพราะมันทำตัวเล็กจนไม่มีใครทันสังเกต",
+ body:["หนังทั้งผืนหดลงจนเท่านิ้วก้อย ลอยเข้าไปอย่างเงียบที่สุด แล้วค่อย ๆ คลี่ออก ขยายกลับเท่าเดิม จนคับท้อง จนหายใจไม่ออก",
+ "เจ้าไม่เคยทะเลาะกับใครเลยทั้งชีวิต เจ้ายิ้มรับทุกครั้งที่มีคนทำไม่ดี เจ้าบอกตัวเองว่าไม่เป็นไร — แต่มันไม่ได้หายไปไหน มันแค่พับตัวเองให้เล็กลงแล้วอยู่ข้างในนั่น และมันโตขึ้นทุกปี",
+ "เจ้ากลัวความขัดแย้ง กลัวการเสียความสัมพันธ์ จนยอมหายไปจากสมการเอง เจ้าไม่ได้ไม่โกรธ เจ้าแค่ไม่เคยพูด และวันที่มันคับจนทนไม่ไหว เจ้าจะเป็นคนที่เจ็บที่สุดเอง"],
+ trivia:"เขมรเรียกวิชานี้ว่าอำเปอ สะแบก เป็นคุณไสยที่รู้จักกว้างขวางที่สุด ว่ากันว่าเอ็กซเรย์ก็หาไม่เจอ ต้องแก้ด้วยการเสกน้ำมนต์ให้ดื่มเพื่อขับของออกมา",
+ dish:"พาร์เฟต์ คุกกี้แอนด์ครีม เฉาก๊วย โมจิ",dishNote:"ครีมสีดำ บุกชาดำ คุกกี้โอรีโอหั่น โมจิสีดำ เฉาก๊วยตกแต่ง นิ่มเยิ่ม"}
+};
+
+const PAIRS = {
+hun:{good:["กุมารทอง","อยู่ด้วยแล้วเจ้าจะยอมให้ตัวเองผิดพลาดได้บ้าง เขาสอนเจ้าว่าไม่ใช่ทุกอย่างต้องถูกเสมอ"],
+     bad:["น้ำมันพราย","เขาอยู่กับอารมณ์ เจ้าอยู่กับกฎ พอเจ้าเหนื่อยเข้า เจ้าจะกลายเป็นเขา — แต่เป็นเวอร์ชันที่ขมขื่นกว่า"]},
+sanae:{good:["น้ำมันพราย","เขาทำให้เจ้ากล้ายอมรับว่าตัวเองก็ต้องการอะไรบ้าง ไม่ต้องให้อย่างเดียวตลอด"],
+     bad:["วัวธนู","เจ้าให้จนหมด เขารับโดยไม่ทันสังเกต พอเจ้าทนไม่ไหว เจ้าจะระเบิดแบบที่ไม่เหมือนตัวเอง"]},
+takrud:{good:["ฝังรูปฝังรอย","เขาไม่สนใจว่าเจ้าดูดีแค่ไหน เขาสนใจว่าเจ้าไว้ใจได้จริงหรือเปล่า และนั่นทำให้เจ้าได้พัก"],
+     bad:["หนังควาย","สองคนนี้เก่งเรื่องไม่พูดความจริงเหมือนกัน คนหนึ่งกลบด้วยภาพลักษณ์ อีกคนกลบด้วยความเงียบ"]},
+namman:{good:["หุ่นพยนต์","เขามีระเบียบที่เจ้าขาด อยู่ด้วยแล้วความรู้สึกของเจ้าได้ลงมือทำจริง ไม่ใช่แค่จมอยู่กับมัน"],
+     bad:["เสน่ห์ยาแฝด","เขาเข้ามาดูแลเจ้าทุกอย่าง จนเจ้าเริ่มทดสอบว่าเขาจะอยู่จริงไหม แล้วทั้งคู่ก็เหนื่อย"]},
+tamra:{good:["วัวธนู","เขาลากเจ้าออกจากหีบตำรา มาลงมือทำสักที เจ้าจะพบว่าตัวเองทำได้มากกว่าที่คิด"],
+     bad:["กุมารทอง","เขาชวนเจ้าออกไปตลอดเวลา จนเจ้าหนีเข้าไปในหัวตัวเองลึกกว่าเดิม"]},
+fang:{good:["หนังควาย","เขาทำให้เจ้าสงบลงพอที่จะเห็นว่าเรื่องที่เจ้ากลัวส่วนใหญ่ไม่เคยเกิดขึ้นจริง"],
+     bad:["ตะกรุดโสฬส","เขาเดินหน้าเร็วและมั่นใจ ส่วนเจ้าคอยถามว่าแล้วถ้าพลาดล่ะ สุดท้ายเจ้าจะรู้สึกว่าตัวเองตามไม่ทัน"]},
+kuman:{good:["ตำราไสย","เขาอยู่นิ่งเป็น และสอนให้เจ้าอยู่กับเรื่องเดียวได้นานพอจะเข้าใจมันจริง ๆ"],
+     bad:["หุ่นพยนต์","เขามีกฎเยอะ เจ้าจะเริ่มหงุดหงิดและจู้จี้กลับ — กลายเป็นคนที่เจ้าไม่ชอบที่สุด"]},
+wua:{good:["เสน่ห์ยาแฝด","เขาทำให้เจ้าวางกำแพงลงได้ และยอมให้มีคนเห็นด้านที่อ่อนโยนของเจ้าบ้าง"],
+     bad:["ตำราไสย","เขาถอยไปคิด เจ้าอยากได้คำตอบเดี๋ยวนี้ พอไม่ได้ เจ้าจะถอยไปอยู่คนเดียวแบบเย็นชา"]},
+nang:{good:["ตะกรุดโสฬส","เขาผลักให้เจ้าลุกขึ้นมาทำอะไรสักอย่างเพื่อตัวเอง ไม่ใช่รอให้ทุกอย่างผ่านไป"],
+     bad:["ฝังรูปฝังรอย","สองคนนี้กังวลเงียบ ๆ ด้วยกัน ไม่มีใครเริ่มพูดก่อน แล้วเรื่องก็ค้างอยู่อย่างนั้น"]}
+};
+
+let idx = 0;
+let answers = [];
+const app = document.getElementById("app");
+
+function render(){
+  if(idx < 0){ renderCover(); return; }
+  if(idx >= QUESTIONS.length){ renderResult(); return; }
+  renderQuestion();
+}
+
+function renderCover(){
+  app.innerHTML = `<div class="cover">
+    <p class="eyebrow">ก่อนพระไอยการกระบดศึก<br>จะถูกบัญญัติในกฎหมายตราสามดวง</p>
+    <h1>หนึ่งวันในเรือนเก่า</h1>
+    <div class="cover-art"><div class="art-wrap">${S.cover}<span class="haze"></span></div></div>
+    <p class="lede">วันนี้เป็นวันโกน วันที่คนโบราณว่าเป็นวันแรง<br>เจ้าตื่นขึ้นในเรือนไม้ริมคลอง และก่อนฟ้าจะสางอีกครั้ง<br>เจ้าจะได้รู้ว่าตัวเองถนัดวิชาไหน</p>
+    <button class="btn" id="start">เริ่มต้นวันใหม่</button>
+  </div>`;
+  
+  document.getElementById("start").onclick = ()=>{ idx = 0; answers = []; render(); };
+}
+
+function renderQuestion(){
+  const item = QUESTIONS[idx];
+  const ticks = QUESTIONS.map((_,i)=>
+    `<i class="${i<idx?'done':(i===idx?'now':'')}"></i>`).join("");
+  app.innerHTML = `
+    <div class="tally">${ticks}</div>
+    <div class="card">
+      <div class="art-wrap">${item.art}<span class="haze"></span></div>
+      <div class="body">
+        <p class="scene-time">${item.time}</p>
+        <p class="q">${item.q}</p>
+        <div class="opts">
+          ${item.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o[0]}</button>`).join("")}
+        </div>
+      </div>
+    </div>
+    ${idx>0?`<div class="backrow"><button class="link" id="back">ย้อนกลับ</button></div>`:""}`;
+
+  
+  app.querySelectorAll(".opt").forEach(b=>{
+    b.onclick = ()=>{
+      answers[idx] = item.opts[+b.dataset.i][1];
+      idx++;
+      window.scrollTo({top:0,behavior:"instant"});
+      render();
+    };
+  });
+  const back = document.getElementById("back");
+  if(back) back.onclick = ()=>{ idx--; render(); };
+}
+
+function tally(){
+  const count = {};
+  answers.forEach(k=>{ count[k] = (count[k]||0)+1; });
+  let best = 0;
+  Object.values(count).forEach(v=>{ if(v>best) best = v; });
+  const tied = Object.keys(count).filter(k=>count[k]===best);
+  if(tied.length === 1) return tied[0];
+  const keyIdx = QUESTIONS.findIndex(q=>q.key);
+  const keyAns = answers[keyIdx];
+  if(keyAns && tied.includes(keyAns)) return keyAns;
+  return tied[0];
+}
+
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/* ---------- wallpaper image ---------- */
+const WP_W = 1080, WP_H = 2340;
+
+function thaiTokens(text){
+  let raw;
+  if (window.Intl && Intl.Segmenter){
+    raw = Array.from(new Intl.Segmenter('th',{granularity:'word'}).segment(text), s=>s.segment);
+  } else {
+    raw = text.match(/[฀-๿][ัิ-ฺ็-๎]*|\s+|./g) || [];
+  }
+  // glue tokens that must never start a line ("ๆ", closing quotes/punctuation) to the previous one
+  const out = [];
+  for (const t of raw){
+    if (out.length && (/^[ๆ”’"',.!?…)\]]/.test(t) || (/^\s+$/.test(t) && false))) out[out.length-1] += t;
+    else if (out.length && /^\s+$/.test(t)) out.push(t);
+    else out.push(t);
+  }
+  // keep " ๆ" (space + mai yamok) together with the word before it
+  for (let i = out.length - 1; i > 0; i--){
+    if (/^\s+$/.test(out[i]) && i+1 < out.length && /^ๆ/.test(out[i+1])){
+      out[i-1] += out[i] + out[i+1]; out.splice(i, 2);
+    }
+  }
+  // opening quote sticks to the next word
+  for (let i = 0; i < out.length - 1; i++){
+    if (/^[“‘("]+$/.test(out[i])){ out[i+1] = out[i] + out[i+1]; out.splice(i,1); }
+  }
+  return out;
+}
+
+function greedyWrap(ctx, tokens, maxW){
+  const lines = []; let line = '';
+  for (const tok of tokens){
+    const test = line + tok;
+    if (ctx.measureText(test).width > maxW && line.trim()){
+      lines.push(line.trim()); line = tok.trimStart();
+    } else line = test;
+  }
+  if (line.trim()) lines.push(line.trim());
+  return lines;
+}
+
+// Thai-aware wrap: break at the spaces between phrases first; split a phrase into
+// words only when it alone is wider than the line. Then balance line lengths.
+function phraseTokens(ctx, text, maxW){
+  const out = [];
+  const parts = text.split(/(\s+)/).filter(x=>x.length);
+  for (let i = 0; i < parts.length; i++){
+    let ph = parts[i];
+    if (/^\s+$/.test(ph)) continue;
+    // "ๆ" after a space belongs to the phrase before it
+    while (i+2 < parts.length && /^\s+$/.test(parts[i+1]) && /^[ๆ—–-]/.test(parts[i+2])){
+      ph += parts[i+1] + parts[i+2]; i += 2;
+    }
+    const lead = out.length ? ' ' : '';
+    if (ctx.measureText(ph).width <= maxW) out.push(lead + ph);
+    else thaiTokens(ph).forEach((w,j)=>out.push((j===0?lead:'') + w));
+  }
+  return out;
+}
+
+function wrapLines(ctx, text, maxW){
+  const tokens = phraseTokens(ctx, text, maxW);
+  const base = greedyWrap(ctx, tokens, maxW);
+  if (base.length < 2) return base;
+  let lo = maxW * 0.4, hi = maxW;
+  for (let i = 0; i < 16; i++){
+    const mid = (lo + hi) / 2;
+    if (greedyWrap(ctx, tokens, mid).length <= base.length) hi = mid; else lo = mid;
+  }
+  return greedyWrap(ctx, tokens, hi);
+}
+
+// vertical extent of a font, including Thai tone marks above and vowels below
+function vExtent(ctx){
+  const m = ctx.measureText('ป๊ั้ญฐู่ฎุ์ปี่');
+  return {asc: m.actualBoundingBoxAscent, desc: m.actualBoundingBoxDescent};
+}
+
+function loadImg(src){
+  return new Promise((res, rej)=>{
+    const im = new Image();
+    im.onload = ()=>res(im); im.onerror = rej; im.src = src;
+  });
+}
+
+async function makeWallpaper(k){
+  const r = RESULTS[k];
+  try{
+    await Promise.all([
+      document.fonts.load('700 100px "Charm"', 'กขค'),
+      document.fonts.load('400 30px "IBM Plex Sans Thai"', 'กขค'),
+      document.fonts.load('600 30px "IBM Plex Sans Thai"', 'กขค')
+    ]);
+  }catch(e){}
+  const c = document.createElement('canvas');
+  c.width = WP_W; c.height = WP_H;
+  const ctx = c.getContext('2d');
+  const cx = WP_W/2;
+
+  // background
+  const g = ctx.createLinearGradient(0,0,0,WP_H);
+  g.addColorStop(0,'#0B1524'); g.addColorStop(.45,'#101D30'); g.addColorStop(1,'#1B2C45');
+  ctx.fillStyle = g; ctx.fillRect(0,0,WP_W,WP_H);
+
+  // thin frame
+  ctx.strokeStyle = 'rgba(212,160,58,.35)'; ctx.lineWidth = 2;
+  ctx.strokeRect(44,44,WP_W-88,WP_H-88);
+
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+
+  // header (below lock-screen clock area)
+  let y = 575;
+  ctx.fillStyle = '#B6A98A';
+  ctx.font = '400 32px "IBM Plex Sans Thai", sans-serif';
+  ctx.fillText('หนึ่งวันในเรือนเก่า · วิชาที่เจ้าถนัดคือ', cx, y);
+  ctx.fillStyle = '#E9DCBC';
+  ctx.font = '700 118px "Charm", serif';
+  { const e = vExtent(ctx); y += 22 + e.asc; ctx.fillText(r.name, cx, y); y += e.desc; }
+
+  // dish image with colour glow
+  const imgTop = y + 26, box = 400;
+  const glow = ctx.createRadialGradient(cx, imgTop+box/2, 20, cx, imgTop+box/2, box*0.62);
+  glow.addColorStop(0, r.color + '66'); glow.addColorStop(1, r.color + '00');
+  ctx.fillStyle = glow; ctx.fillRect(0, imgTop-60, WP_W, box+120);
+  try{
+    const im = await loadImg(r.img);
+    const s = Math.min(box/im.width, box/im.height);
+    const w = im.width*s, h = im.height*s;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(im, cx-w/2, imgTop+(box-h)/2, w, h);
+    ctx.imageSmoothingEnabled = true;
+  }catch(e){}
+  y = imgTop + box + 56;
+  ctx.fillStyle = '#B6A98A';
+  ctx.font = '600 30px "IBM Plex Sans Thai", sans-serif';
+  ctx.fillText('เมนูประจำตัว · ' + r.dish, cx, y);
+
+  // footer (discount) — box height follows the real text height
+  ctx.font = '700 54px "Charm", serif';
+  const fe1 = vExtent(ctx);
+  ctx.font = '400 28px "IBM Plex Sans Thai", sans-serif';
+  const fe2 = vExtent(ctx);
+  const padT = 34, padB = 30, between = 20;
+  const fH0 = 0, fH = padT + fe1.asc + fe1.desc + between + fe2.asc + fe2.desc + padB;
+  const fX = 110, fW = WP_W - 220, fTop = WP_H - 130 - fH;
+  ctx.save();
+  ctx.setLineDash([14,10]); ctx.strokeStyle = '#D4A03A'; ctx.lineWidth = 3;
+  ctx.fillStyle = 'rgba(212,160,58,.10)';
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(fX,fTop,fW,fH,22) : ctx.rect(fX,fTop,fW,fH);
+  ctx.fill(); ctx.stroke(); ctx.restore();
+  let fy = fTop + padT + fe1.asc;
+  ctx.fillStyle = '#D4A03A';
+  ctx.font = '700 54px "Charm", serif';
+  ctx.fillText('แสดงภาพนี้ที่ร้าน รับส่วนลด 5%', cx, fy);
+  fy += fe1.desc + between + fe2.asc;
+  ctx.fillStyle = '#B6A98A';
+  ctx.font = '400 28px "IBM Plex Sans Thai", sans-serif';
+  ctx.fillText('Mahou Ran · เทศกาลคุณไสย', cx, fy);
+
+  // quote + body — auto-fit into the space between dish label and footer
+  const textTop = y + 48, textBottom = fTop - 48, maxW = WP_W - 190;
+  let qSize = 46, bSize = 31, layout;
+  for (let tries = 0; tries < 16; tries++){
+    ctx.font = `700 ${qSize}px "Charm", serif`;
+    const qe = vExtent(ctx);
+    const qLines = wrapLines(ctx, '“' + r.quote + '”', maxW);
+    ctx.font = `400 ${bSize}px "IBM Plex Sans Thai", sans-serif`;
+    const be = vExtent(ctx);
+    const paras = r.body.map(p => wrapLines(ctx, p, maxW));
+    const qLH = (qe.asc + qe.desc) * 1.12, bLH = (be.asc + be.desc) * 1.28;
+    const gap = bSize * 0.75, afterQuote = 44;
+    const bodyLines = paras.reduce((a,p)=>a + p.length, 0);
+    const h = qe.asc + (qLines.length-1)*qLH + qe.desc + afterQuote
+            + be.asc + (bodyLines-1)*bLH + gap*(paras.length-1) + be.desc;
+    layout = {qLines, paras, qLH, bLH, gap, afterQuote, qe, be, h};
+    if (h <= textBottom - textTop) break;
+    qSize -= 2; bSize -= 1.25;
+  }
+  const L = layout;
+  let ty = textTop + Math.max(0, (textBottom - textTop - L.h)/2) + L.qe.asc;
+  ctx.fillStyle = '#D4A03A';
+  ctx.font = `700 ${qSize}px "Charm", serif`;
+  L.qLines.forEach((l,i)=>{ ctx.fillText(l, cx, ty); if (i < L.qLines.length-1) ty += L.qLH; });
+  ty += L.qe.desc + L.afterQuote + L.be.asc;
+  ctx.fillStyle = '#F2E8D0';
+  ctx.font = `400 ${bSize}px "IBM Plex Sans Thai", sans-serif`;
+  L.paras.forEach((p,pi)=>{
+    p.forEach((l,li)=>{ ctx.fillText(l, cx, ty); if (li < p.length-1) ty += L.bLH; });
+    if (pi < L.paras.length-1) ty += L.bLH + L.gap;
+  });
+
+  return c;
+}
+
+async function openSaveSheet(k, btn){
+  const old = btn.textContent;
+  btn.disabled = true; btn.textContent = 'กำลังเตรียมภาพ…';
+  let canvas;
+  try{ canvas = await makeWallpaper(k); }
+  catch(e){ btn.disabled = false; btn.textContent = old; alert('สร้างภาพไม่สำเร็จ ลองอีกครั้งนะ'); return; }
+  btn.disabled = false; btn.textContent = old;
+
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+  const fname = 'khunsai-' + k + '.jpg';
+  const sheet = document.createElement('div');
+  sheet.className = 'save-sheet';
+  sheet.innerHTML = `<div class="save-inner">
+      <p class="save-hint">กดค้างที่ภาพแล้วเลือก "บันทึกรูปภาพ"<br><span id="hint2">หรือกดปุ่มด้านล่าง</span></p>
+      <img src="${dataUrl}" alt="ภาพคำทำนาย ${r_name(k)}" class="save-preview">
+      <p class="save-msg" id="saveMsg" aria-live="polite"></p>
+      <div class="save-actions">
+        <button class="btn" id="dl">บันทึกภาพลงเครื่อง</button>
+        <button class="btn ghost" id="closeSheet">ปิด</button>
+      </div>
+    </div>`;
+  document.body.appendChild(sheet);
+  sheet.addEventListener('click', e=>{ if(e.target === sheet) sheet.remove(); });
+  sheet.querySelector('#closeSheet').onclick = ()=>sheet.remove();
+
+  const dlBtn = sheet.querySelector('#dl'), msg = sheet.querySelector('#saveMsg');
+  const blobP = new Promise(res=>canvas.toBlob(res, 'image/jpeg', 0.92));
+  const dlP = (window.claude && typeof window.claude.use === 'function')
+    ? window.claude.use('downloads').catch(()=>null) : Promise.resolve(null);
+  dlBtn.disabled = true;
+  dlP.then(downloads=>{
+    if(!downloads){
+      // ordinary website (e.g. GitHub Pages): share sheet on phones, plain download elsewhere
+      dlBtn.disabled = false;
+      dlBtn.onclick = async ()=>{
+        const blob = await blobP;
+        if(!blob){ msg.textContent = 'สร้างไฟล์ไม่สำเร็จ ลองกดค้างที่ภาพแทนนะ'; return; }
+        const file = new File([blob], fname, {type:'image/jpeg'});
+        if (navigator.canShare && navigator.canShare({files:[file]})){
+          try{ await navigator.share({files:[file]}); return; }
+          catch(e){ if(e && e.name === 'AbortError') return; }
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 4000);
+        msg.textContent = 'บันทึกแล้ว อย่าลืมนำมาโชว์ที่ร้านนะ';
+      };
+      return;
+    }
+    dlBtn.disabled = false;
+    dlBtn.onclick = async ()=>{
+      const blob = await blobP;
+      if(!blob){ msg.textContent = 'สร้างไฟล์ไม่สำเร็จ ลองกดค้างที่ภาพแทนนะ'; return; }
+      dlBtn.disabled = true; msg.textContent = '';
+      try{
+        await downloads.save({filename: fname, data: blob});
+        msg.textContent = 'บันทึกแล้ว อย่าลืมนำมาโชว์ที่ร้านนะ';
+      }catch(e){
+        const c = e && e.code;
+        if(c === 'declined') msg.textContent = '';
+        else if(c === 'rate_limited') msg.textContent = 'รอสักครู่แล้วลองอีกครั้ง';
+        else { msg.textContent = 'บันทึกจากปุ่มไม่ได้ในหน้านี้ ลองกดค้างที่ภาพแทนนะ'; dlBtn.hidden = true; }
+      }
+      dlBtn.disabled = false;
+    };
+  });
+}
+function r_name(k){ return RESULTS[k].name; }
+
+function renderResult(){
+  const k = tally();
+  const r = RESULTS[k];
+  const p = PAIRS[k];
+
+  app.innerHTML = `<div class="result">
+    <div class="rhead">
+      <p class="pre">ฟ้าสางแล้ว วิชาที่เจ้าถนัดคือ</p>
+      <h2>${r.name}</h2>
+      <span class="swatch"><b style="background:${r.color}"></b>สีประจำวิชา</span>
+    </div>
+    <p class="rquote">"${r.quote}"</p>
+    <div class="rbody">
+      ${r.body.map(t=>`<p>${escapeHtml(t)}</p>`).join("")}
+
+      <div class="menu">
+        <h3>เมนูประจำตัว</h3>
+        <img src="${r.img}" alt="${r.dish}" class="food-img">
+        <p class="dish-name"><span class="dish">${r.dish}</span></p>
+        <div class="discount-section">
+          <h3>รับส่วนลด 5%</h3>
+          <p class="discount-text">เซฟภาพคำทำนายของเจ้า แล้วนำมาแสดงที่ร้าน<br>ตั้งเป็นภาพหน้าจอมือถือได้ด้วย</p>
+          <button class="save-btn" id="saveImg">เซฟภาพคำทำนาย</button>
+        </div>
+      </div>
+
+      <div class="trivia">
+        <h3>เกร็ดคุณไสย</h3>
+        <p>${r.trivia}</p>
+      </div>
+      <div class="pair">
+        <div>
+          <h3>อยู่ด้วยแล้วเจ้าจะดีขึ้น</h3>
+          <span class="who">${p.good[0]}</span>
+          <p>${p.good[1]}</p>
+        </div>
+        <div>
+          <h3>อยู่ด้วยแล้วเจ้าจะกลายเป็นอีกคน</h3>
+          <span class="who">${p.bad[0]}</span>
+          <p>${p.bad[1]}</p>
+        </div>
+      </div>
+    </div>
+    <div class="ragain">
+      <button class="btn" id="again">ทำใหม่อีกครั้ง</button>
+      <button class="btn ghost" id="all">ดูวิชาทั้งเก้า</button>
+    </div>
+    <p class="footnote">คุณไสยเป็นความเชื่อพื้นบ้าน แบบทดสอบนี้ทำขึ้นเพื่อความสนุกในเทศกาลเท่านั้น</p>
+  </div>`;
+  document.getElementById("again").onclick = ()=>{ idx=-1; answers=[]; window.scrollTo({top:0}); render(); };
+  document.getElementById("all").onclick = renderAll;
+  const sb = document.getElementById("saveImg");
+  sb.onclick = ()=>openSaveSheet(k, sb);
+}
+
+function renderAll(){
+  const cards = Object.values(RESULTS).map(r=>`
+    <div class="rbody" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <span style="width:30px;height:30px;border-radius:50%;background:${r.color};display:block;flex:0 0 auto;border:1px solid rgba(42,36,22,.2)"></span>
+        <span style="font-family:Charm,serif;font-size:25px;font-weight:700">${r.name}</span>
+      </div>
+      <p style="font-size:14.5px">${r.quote}</p>
+      <p style="font-size:14px;color:#5C5540">เมนูประจำตัว · <b style="font-weight:600">${r.dish}</b></p>
+    </div>`).join("");
+  app.innerHTML = `<div class="result">
+    <div class="rhead"><h2 style="font-size:36px">วิชาทั้งเก้า</h2></div>
+    ${cards}
+    <div class="ragain"><button class="btn" id="again2">ทำแบบทดสอบ</button></div>
+  </div>`;
+  document.getElementById("again2").onclick = ()=>{ idx=-1; answers=[]; window.scrollTo({top:0}); render(); };
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',()=>{
+    idx = -1;
+    render();
+  });
+}else{
+  idx = -1;
+  render();
+}
+</script>
+</body>
+</html>
